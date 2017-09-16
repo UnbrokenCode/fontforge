@@ -87,27 +87,6 @@ int fontforge_main( int argc, char **argv ) {
     time_t tm = FONTFORGE_MODTIME_RAW;
     struct tm* modtime = gmtime(&tm);
 
-    fprintf( stderr, "Copyright (c) 2000-%d. See AUTHORS for Contributors.\n", modtime->tm_year+1900 );
-    fprintf( stderr, " License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n" );
-    fprintf( stderr, " with many parts BSD <http://fontforge.org/license.html>. Please read LICENSE.\n" );
-    fprintf( stderr, " Version: %s\n", FONTFORGE_VERSION );
-    fprintf( stderr, " Based on sources from %s"
-#ifdef FREETYPE_HAS_DEBUGGER
-	    "-TtfDb"
-#endif
-#ifdef _NO_PYTHON
-	    "-NoPython"
-#endif
-#ifdef FONTFORGE_CONFIG_USE_DOUBLE
-	    "-D"
-#endif
-	    ".\n",
-	    FONTFORGE_MODTIME_STR );
-    // Can be empty if e.g. building from a tarball
-    if (FONTFORGE_GIT_VERSION[0] != '\0') {
-	fprintf( stderr, " Based on source from git with hash: %s\n", FONTFORGE_GIT_VERSION );
-    }
-
     FindProgDir(argv[0]);
     InitSimpleStuff();
 
@@ -125,8 +104,29 @@ int fontforge_main( int argc, char **argv ) {
 	if ( *pt=='-' && pt[1]=='-' && pt[2]!='\0') ++pt;
 	if ( strcmp(pt,"-usage")==0 )
 	    doscriptusage();
-	else if ( strcmp(pt,"-help")==0 )
+	else if ( strcmp(pt,"-help")==0 ) {
+	    fprintf( stderr, "Copyright (c) 2000-%d. See AUTHORS for Contributors.\n", modtime->tm_year+1900 );
+	    fprintf( stderr, " License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n" );
+	    fprintf( stderr, " with many parts BSD <http://fontforge.org/license.html>. Please read LICENSE.\n" );
+	    fprintf( stderr, " Version: %s\n", FONTFORGE_VERSION );
+	    fprintf( stderr, " Based on sources from %s"
+	#ifdef FREETYPE_HAS_DEBUGGER
+		    "-TtfDb"
+	#endif
+	#ifdef _NO_PYTHON
+		    "-NoPython"
+	#endif
+	#ifdef FONTFORGE_CONFIG_USE_DOUBLE
+		    "-D"
+	#endif
+		    ".\n",
+		    FONTFORGE_MODTIME_STR );
+	    // Can be empty if e.g. building from a tarball
+	    if (FONTFORGE_GIT_VERSION[0] != '\0') {
+		fprintf( stderr, " Based on source from git with hash: %s\n", FONTFORGE_GIT_VERSION );
+	    }
 	    doscripthelp();
+    }
 	else if ( strcmp(pt,"-version")==0 || strcmp(pt,"-v")==0 || strcmp(pt,"-V")==0 )
 	    doversion(FONTFORGE_VERSION);
     }
