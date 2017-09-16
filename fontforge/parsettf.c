@@ -5699,7 +5699,10 @@ static void NameConsistancyCheck(SplineFont *sf,EncMap *map) {
 		for ( alt = sc->altuni; alt!=NULL && alt->unienc!=uni; alt=alt->next );
 		if ( alt==NULL )
 		{
-                   if ( strcmp(sc->name,"alefmaksurainitialarabic")==0 ||
+			if ( strcmp(sc->name,"mu")==0)
+			{
+			}
+                   else if ( strcmp(sc->name,"alefmaksurainitialarabic")==0 ||
                         strcmp(sc->name,"alefmaksuramedialarabic")==0 )
                    {
                       LogError( _("The names 'alefmaksurainitialarabic' and 'alefmaksuramedialarabic' in the Adobe Glyph List disagree with Unicode.  The use of these glyph names is therefore discouraged.\n") );

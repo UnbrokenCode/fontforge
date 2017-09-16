@@ -1094,7 +1094,7 @@ int main( int argc, char **argv ) {
 #if defined(__Mac)
     int local_x;
 #endif
-
+#if 0
     fprintf( stderr, "Copyright (c) 2000-2012 by George Williams.\n Executable based on sources from %s"
 #ifdef FONTFORGE_CONFIG_TYPE3
 	    "-ML"
@@ -1116,7 +1116,7 @@ int main( int argc, char **argv ) {
 	    ".\n",
 	    source_modtime_str );
     fprintf( stderr, " Library based on sources from %s.\n", library_version_configuration.library_source_modtime_string );
-
+#endif
     /* Must be done before we cache the current directory */
     for ( i=1; i<argc; ++i ) if ( strcmp(argv[i],"-home")==0 && getenv("HOME")!=NULL )
 	chdir(getenv("HOME"));

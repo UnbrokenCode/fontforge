@@ -1893,8 +1893,15 @@ int CIDOneWidth(SplineFont *_sf) {
 		(strcmp(sf->glyphs[i]->name,".notdef")!=0 || sf->glyphs[i]->layers[ly_fore].splines!=NULL)) {
 	    /* Only trust the width of notdef if it's got some content */
 	    /* (at least as far as fixed pitch determination goes) */
-	    if ( width==-2 ) width = sf->glyphs[i]->width;
-	    else if ( width!=sf->glyphs[i]->width ) {
+	    if ( width==-2 ) 
+		{
+			width = sf->glyphs[i]->width;
+			//printf("Setting width: %d from %s\n", width, sf->glyphs[i]->name);
+		}
+	    else if ( width!=sf->glyphs[i]->width ) 
+		{
+			//printf("Abandon width: %d != %d with %s\n", sf->glyphs[i]->width, width, sf->glyphs[i]->name);
+			
 		width = -1;
 	break;
 	    }

@@ -174,31 +174,51 @@ return;
 void FVDoit(CreateWidthData *wd) {
     FontViewBase *fv = (FontViewBase *) (wd->_fv);
     int i;
+	int gid;
     BDFChar *bc;
 
-    if ( fv->sf->onlybitmaps && fv->active_bitmap!=NULL && fv->sf->bitmaps!=NULL ) {
-	double scale = (fv->sf->ascent+fv->sf->descent)/(double) fv->active_bitmap->pixelsize;
-	wd->setto *= scale;
-	wd->increment *= scale;
+    if ( fv->sf->onlybitmaps && fv->active_bitmap!=NULL && fv->sf->bitmaps!=NULL ) 
+	{
+		double scale = (fv->sf->ascent+fv->sf->descent)/(double) fv->active_bitmap->pixelsize;
+		wd->setto *= scale;
+		wd->increment *= scale;
     }
     bc = NULL;
-    for ( i=0; i<fv->map->enccount; ++i ) if ( fv->selected[i] ) {
-	SplineChar *sc;
+    for ( i=0; i<fv->map->enccount; ++i ) 
+	{
+#if 1
+		if ( fv->selected[i] &&
+			(gid = fv->map->map[i])!=-1 &&
+			SCWorthOutputting(fv->sf->glyphs[gid])) 
+		{
+			SplineChar *sc = fv->sf->glyphs[gid];
+//			printf("setting width: %s\n", sc->name);
+			DoChar(sc,wd,fv,bc);
+		}		
+#else
+		if ( fv->selected[i] ) 
+		{
+			SplineChar *sc;
 
-	sc = SFMakeChar(fv->sf,fv->map,i);
-	if ( fv->sf->onlybitmaps && fv->sf->bitmaps!=NULL ) {
-	    if ( fv->active_bitmap!=NULL )
-		bc = BDFMakeChar(fv->active_bitmap,fv->map,i);
+			sc = SFMakeChar(fv->sf,fv->map,i);
+			if ( fv->sf->onlybitmaps && fv->sf->bitmaps!=NULL ) 
+			{
+				if ( fv->active_bitmap!=NULL )
+					bc = BDFMakeChar(fv->active_bitmap,fv->map,i);
 #if 0
-	    else {
-		BDFFont *bdf;
-		for ( bdf=fv->sf->bitmaps; bdf!=NULL; bdf=bdf->next )
-		    bc = BDFMakeChar(bdf,fv->map,i);
-	    }
+				else 
+				{
+					BDFFont *bdf;
+					for ( bdf=fv->sf->bitmaps; bdf!=NULL; bdf=bdf->next )
+						bc = BDFMakeChar(bdf,fv->map,i);
+				}
 #endif
+			}
+			DoChar(sc,wd,fv,bc);
+		}
+#endif
+		
 	}
-	DoChar(sc,wd,fv,bc);
-    }
     wd->done = true;
 }
 
