@@ -1276,7 +1276,7 @@ void SplineRefigure2(Spline *spline) {
 	    from->nextcp.x = to->prevcp.x = (from->nextcp.x+to->prevcp.x)/2;
 	    from->nextcp.y = to->prevcp.y = (from->nextcp.y+to->prevcp.y)/2;
 	} else {
-	    IError("Invalid 2nd order spline in SplineRefigure2" );
+	    //IError("Invalid 2nd order spline in SplineRefigure2" );
 #ifndef GWW_TEST
 	    /* I don't want these to go away when I'm debugging. I want to */
 	    /*  know how I got them */
